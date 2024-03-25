@@ -1,0 +1,38 @@
+poetry new task1
+poetry shell
+pip install psycopg2-binary
+poetry add psycopg2-binary
+pip install pandas
+poetry add pandas
+pip install IPython
+poetry add IPython
+pip install faker
+poetry add faker
+pip install random
+poetry add random
+poetry export --without-hashes --format=requirements.txt > requirements.txt
+poetry install --no-root
+poetry update
+poetry show --tree
+Ctrl+C
+exit
+
+/////
+docker build . -t olexandryakovenko/task1
+docker run -itd -p 5000:5000 olexandryakovenko/task1
+or
+docker run -it laughing_easley /bin/bash
+or
+docker exec -it laughing_easley /bin/bash
+
+then
+python task1.py
+
+
+docker push olexandryakovenko/task1
+
+/////////////////
+Параметри підключення до бази описані в postgres_c.py
+Заповнення бази в скрипті seed.py
+Скрипти по створенню таблиць в sql_create.txt
+Скрипти із завдання в sql_to_execute.txt

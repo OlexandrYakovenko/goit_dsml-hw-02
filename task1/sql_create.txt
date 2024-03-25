@@ -1,0 +1,50 @@
+
+-- public.users визначення
+
+CREATE TABLE public.users (
+	id serial4 NOT NULL,
+	fullname varchar(100) NULL,
+	email varchar(100) NOT NULL,
+	CONSTRAINT users_pk PRIMARY KEY (id),
+	CONSTRAINT users_unique UNIQUE (email),
+	CONSTRAINT users_users_fk FOREIGN KEY (id) REFERENCES public.users(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- public.status визначення
+CREATE TABLE public.status (
+	id serial4 NOT NULL,
+	"name" varchar(50) NULL,
+	CONSTRAINT status_pk PRIMARY KEY (id),
+	CONSTRAINT status_status_fk FOREIGN KEY (id) REFERENCES public.status(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+ALTER TABLE public.status ADD CONSTRAINT status_unique UNIQUE ("name");
+
+-- public.tasks визначення
+
+CREATE TABLE public.tasks (
+	id serial NOT NULL,
+	title varchar(100) NULL,
+	description text NULL,
+	status_id integer NULL,
+	user_id integer NULL,
+	CONSTRAINT tasks_pk PRIMARY KEY (id),
+	CONSTRAINT tasks_status_fk FOREIGN KEY (status_id) REFERENCES public.status(id),
+	CONSTRAINT tasks_users_fk FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+
+ALTER TABLE public.tasks DROP CONSTRAINT tasks_users_fk;
+ALTER TABLE public.tasks ADD CONSTRAINT tasks_users_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+/*
+INSERT INTO public.status
+(id, "name")
+values
+(nextval('status_id_seq'::regclass), ('new')),
+(nextval('status_id_seq'::regclass), ('in progress')),
+(nextval('status_id_seq'::regclass), ('completed'))
+;
+
+INSERT INTO public.users
+(id, fullname, email)
+VALUES(nextval('users_id_seq'::regclass), '', '');
+*/

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "task1"
+version = "0.1.0"
+description = ""
+authors = ["OlexandrYakovenko <154465467+OlexandrYakovenko@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+psycopg2 = "^2.9.9"
+pandas = "^2.2.1"
+ipython = "^8.22.2"
+faker = "^24.3.0"
+psycopg2-binary = "^2.9.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

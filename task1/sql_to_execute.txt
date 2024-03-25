@@ -1,0 +1,90 @@
+-- Запити для виконання:
+
+-- Отримати всі завдання певного користувача.
+SELECT id, title, description, status_id, user_id
+FROM public.tasks
+where id=6
+;
+
+-- Вибрати завдання за певним статусом. 
+SELECT id, title, description, status_id, user_id
+FROM public.tasks
+where status_id = 3
+;
+
+-- Оновити статус конкретного завдання.
+UPDATE public.tasks
+SET status_id=3
+WHERE id=5;
+
+-- Отримати список користувачів, які не мають жодного завдання.
+SELECT u.id, u.fullname, u.email
+FROM public.users u
+where u.id not in (select distinct t.user_id from tasks t)
+;
+
+-- Додати нове завдання для конкретного користувача.
+INSERT INTO public.tasks
+(id, title, description, status_id, user_id)
+VALUES((select max(id) from  public.tasks)+1 , 'qqqqqqq', 'dsfsdgvsdvsdv', 1, 5);
+
+-- Отримати всі завдання, які ще не завершено.
+SELECT id, title, description, status_id, user_id
+FROM public.tasks
+where status_id <> 3
+;
+
+-- Видалити конкретне завдання.
+DELETE FROM public.tasks
+WHERE id=16;
+
+-- Знайти користувачів з певною електронною поштою.
+SELECT id, fullname, email
+FROM public.users
+where email like 'vperry@example.net';
+
+-- Оновити ім'я користувача. 
+UPDATE public.users
+SET fullname='John Dou'
+WHERE id=10;
+
+-- Отримати кількість завдань для кожного статусу.
+SELECT 
+COUNT(1) as quantity_tasks,
+status_id
+FROM public.tasks
+group by status_id;
+
+-- Отримати завдання, які призначені користувачам з певною доменною частиною електронної пошти.
+SELECT id, fullname, email
+FROM public.users
+where email like '%example.com%' 
+;
+
+-- Отримати список завдань, що не мають опису.
+SELECT id, title, description, status_id, user_id
+FROM public.tasks
+where description = '';
+
+-- Вибрати користувачів та їхні завдання, які є у статусі 'in progress'. 
+select
+u.id, u.fullname , u.email ,
+t.id, t.title, t.description, t.status_id, t.user_id
+FROM 
+public.users u 
+inner join public.tasks t
+on u.id = t.user_id and t.status_id in (select s.id from public.status as s 
+					where s.name = 'in progress')
+;
+
+-- Отримати користувачів та кількість їхніх завдань.
+select
+u.id, u.fullname , u.email ,
+tt.count_tasks
+FROM 
+public.users u 
+left join (select count(1) as count_tasks, t.user_id from public.tasks t group by t.user_id ) tt
+on u.id = tt.user_id 
+;
+
+

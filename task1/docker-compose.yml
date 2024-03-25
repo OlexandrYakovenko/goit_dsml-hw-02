@@ -1,0 +1,18 @@
+version: '1'
+services:
+  postgres:
+    image: laughing_easley
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
