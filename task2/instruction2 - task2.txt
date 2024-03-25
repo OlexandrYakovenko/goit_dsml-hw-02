@@ -1,1 +1,12 @@
-instruction
+poetry new task2
+poetry shell
+pip install bson
+poetry add bson
+pip install pymongo
+poetry add pymongo
+poetry export --without-hashes --format=requirements.txt > requirements.txt
+poetry install --no-root
+poetry update
+poetry show --tree
+Ctrl+C
+exit
